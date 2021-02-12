@@ -75,7 +75,7 @@
         return position;
     };
     var create = tail.create = function(tag, classes){
-        var r = d.createElement(tag);
+        var r = document.createElement(tag);
             r.className = (classes && classes.join)? classes.join(" "): classes || "";
         return r;
     };
@@ -85,7 +85,7 @@
      |  @since  0.4.0 [0.2.0]
      */
     var writer = function(el, config){
-        el = (typeof(el) == "string")? d.querySelectorAll(el): el;
+        el = (typeof(el) == "string")? document.querySelectorAll(el): el;
         if(el instanceof NodeList || el instanceof HTMLCollection || el instanceof Array){
             for(var _r = [], l = el.length, i = 0; i < l; i++){
                 _r.push(new writer(el[i], clone(config, {})));
@@ -145,7 +145,7 @@
         debug: true,
         disabled: false,
         doubleLineBreak: false,
-        fullscreenParent: d.body,
+        fullscreenParent: null,
         height: [200, 500],
         indentTab: false,
         indentSize: 4,
@@ -335,12 +335,12 @@
             syntax: false,
             action: function(markup, action, type){
                 if(this.con.fullscreenParent === null){
-                    this.con.fullscreenParent = d.body;
+                    this.con.fullscreenParent = document.body;
                 }
 
                 if(!cHAS(this.e.main, "fullscreen")){
                     cADD(this.e.main, "fullscreen");
-                    d.body.style.cssText = "overflow:hidden;";
+                    document.body.style.cssText = "overflow:hidden;";
 
                     this.placeholder = create("DIV");
                     this.placeholder.id = this.e.main.id + "-placeholder";
@@ -349,7 +349,7 @@
                     this.con.fullscreenParent.appendChild(this.e.main);
                 } else {
                     cREM(this.e.main, "fullscreen");
-                    d.body.style.removeProperty("overflow");
+                    document.body.style.removeProperty("overflow");
 
                     this.placeholder.parentElement.replaceChild(this.e.main, this.placeholder);
                     this.placeholder = false;
@@ -792,7 +792,7 @@
                         self.update.call(self);
                     });
                 }
-                d.body.onresize = function(){
+                document.body.onresize = function(){
                     self.toolbarResize.call(self);
                 };
 
@@ -923,9 +923,9 @@
             } else {
                 this.e.editor.style.height = "250px";
             }
-            var th = w.getComputedStyle(this.e.tools);
+            var th = window.getComputedStyle(this.e.tools);
             th = this.e.tools.offsetHeight + Math.max(parseInt(th.marginTop), 0) + Math.max(parseInt(th.marginBottom), 0);
-            var sh = w.getComputedStyle(this.e.status);
+            var sh = window.getComputedStyle(this.e.status);
             if(typeof(sh) !== "object"){
                 sh = 0;
             } else {
